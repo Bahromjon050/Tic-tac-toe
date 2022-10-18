@@ -1,224 +1,43 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  playerAction,
+  nextStart,
+  winners,
+  winPlayer,
+  reset,
+} from "../toolkit/Reducers";
 
 const Api = () => {
-  // const findMyState = () => {
-  //   const success = (position) => {
-  //     console.log(position);
-  //   };
-  //   const error = (error) => {
-  //     console.log(error);
-  //   };
-  //   navigator.geolocation.getCurrentPosition(success, error);
-  // };
-  const { appData } = useSelector(state => state.appSlice);
-  // console.log(appData);
-
-  const startFun = (props) => {
-    if (start) {
-      // setApp(
-      //   app.map((val) =>
-      //     val.id === props.id
-      //       ? { ...props, icon: props.closeIcon, burchak: true }
-      //       : val
-      //   )
-      // );
-    } else {
-      // setApp(
-      //   app.map((val) =>
-      //     val.id === props.id
-      //       ? { ...props, icon: props.okIcon, burchak: false }
-      //       : val
-      //   )
-      // );
+  const { oyin, start, playerOne, playerTwo, igrok, winner } = useSelector(
+    (state) => state.app
+  );
+  const [repeat, setRepeat] = useState([]);
+  const dispatch = useDispatch();
+  const startFun = (props, i) => {
+    console.log(props[3]);
+    if (repeat.filter((val) => val === i).length === 0) {
+      setRepeat([...repeat, i]);
+      if (start) {
+        dispatch(playerAction({ arr: "playerOne", data: [...props, "X"] }));
+      } else {
+        dispatch(playerAction({ arr: "playerTwo", data: [...props, "O"] }));
+      }
+      dispatch(nextStart());
     }
-
-    // Activ X
-    // if (
-    //   app[0].burchak === true &&
-    //   app[1].burchak === true &&
-    //   app[2].burchak === true
-    // ) {
-    //   for (let i = 0; i < 3; i++) {
-    //     app[i].name = "activ";
-    //   }
-    //   setIgrok("X");
-    //   setWinner(true);
-    // } else if (
-    //   app[3].burchak === true &&
-    //   app[4].burchak === true &&
-    //   app[5].burchak === true
-    // ) {
-    //   for (let i = 3; i < 8; i++) {
-    //     app[i].name = "activ";
-    //   }
-    //   setIgrok("X");
-    //   setWinner(true);
-    // } else if (
-    //   app[6].burchak === true &&
-    //   app[7].burchak === true &&
-    //   app[8].burchak === true
-    // ) {
-    //   for (let i = 6; i < 9; i++) {
-    //     app[i].name = "activ";
-    //   }
-    //   setIgrok("X");
-    //   setWinner(true);
-    // }
-    // if (
-    //   app[0].burchak === true &&
-    //   app[3].burchak === true &&
-    //   app[6].burchak === true
-    // ) {
-    //   app[0].name = "activ";
-    //   app[3].name = "activ";
-    //   app[6].name = "activ";
-    //   setIgrok("X");
-    //   setWinner(true);
-    // } else if (
-    //   app[1].burchak === true &&
-    //   app[4].burchak === true &&
-    //   app[7].burchak === true
-    // ) {
-    //   app[1].name = "activ";
-    //   app[4].name = "activ";
-    //   app[7].name = "activ";
-    //   setIgrok("X");
-    //   setWinner(true);
-    // } else if (
-    //   app[2].burchak === true &&
-    //   app[5].burchak === true &&
-    //   app[8].burchak === true
-    // ) {
-    //   app[2].name = "activ";
-    //   app[5].name = "activ";
-    //   app[8].name = "activ";
-    //   setIgrok("X");
-    //   setWinner(true);
-    // }
-    // if (
-    //   app[0].burchak === true &&
-    //   app[4].burchak === true &&
-    //   app[8].burchak === true
-    // ) {
-    //   app[0].name = "activ";
-    //   app[4].name = "activ";
-    //   app[8].name = "activ";
-    //   setIgrok("X");
-    //   setWinner(true);
-    // } else if (
-    //   app[2].burchak === true &&
-    //   app[4].burchak === true &&
-    //   app[6].burchak === true
-    // ) {
-    //   app[2].name = "activ";
-    //   app[4].name = "activ";
-    //   app[6].name = "activ";
-    //   setIgrok("X");
-    //   setWinner(true);
-    // }
-
-    // // In Activ O
-
-    // if (
-    //   app[0].burchak === false &&
-    //   app[1].burchak === false &&
-    //   app[2].burchak === false
-    // ) {
-    //   for (let i = 0; i < 3; i++) {
-    //     app[i].name = "inactiv";
-    //   }
-    //   setIgrok("O");
-    //   setWinner(true);
-    // } else if (
-    //   app[3].burchak === false &&
-    //   app[4].burchak === false &&
-    //   app[5].burchak === false
-    // ) {
-    //   for (let i = 3; i < 8; i++) {
-    //     app[i].name = "inactiv";
-    //   }
-    //   setIgrok("O");
-    //   setWinner(true);
-    // } else if (
-    //   app[6].burchak === false &&
-    //   app[7].burchak === false &&
-    //   app[8].burchak === false
-    // ) {
-    //   for (let i = 6; i < 9; i++) {
-    //     app[i].name = "inactiv";
-    //   }
-    //   setIgrok("O");
-    //   setWinner(true);
-    // }
-    // if (
-    //   app[0].burchak === false &&
-    //   app[3].burchak === false &&
-    //   app[6].burchak === false
-    // ) {
-    //   app[0].name = "inactiv";
-    //   app[3].name = "inactiv";
-    //   app[6].name = "inactiv";
-    //   setIgrok("O");
-    //   setWinner(true);
-    // } else if (
-    //   app[1].burchak === false &&
-    //   app[4].burchak === false &&
-    //   app[7].burchak === false
-    // ) {
-    //   app[1].name = "inactiv";
-    //   app[4].name = "inactiv";
-    //   app[7].name = "inactiv";
-    //   setIgrok("O");
-    //   setWinner(true);
-    // } else if (
-    //   app[2].burchak === false &&
-    //   app[5].burchak === false &&
-    //   app[8].burchak === false
-    // ) {
-    //   app[2].name = "inactiv";
-    //   app[5].name = "inactiv";
-    //   app[8].name = "inactiv";
-    //   setIgrok("O");
-    //   setWinner(true);
-    // }
-    // if (
-    //   app[0].burchak === false &&
-    //   app[4].burchak === false &&
-    //   app[8].burchak === false
-    // ) {
-    //   app[0].name = "inactiv";
-    //   app[4].name = "inactiv";
-    //   app[8].name = "inactiv";
-    //   setIgrok("O");
-    //   setWinner(true);
-    // } else if (
-    //   app[2].burchak === false &&
-    //   app[4].burchak === false &&
-    //   app[6].burchak === false
-    // ) {
-    //   app[2].name = "inactiv";
-    //   app[4].name = "inactiv";
-    //   app[6].name = "inactiv";
-    //   setIgrok("O");
-    //   setWinner(true);
-    // }
-    setStart(!start);
+    oyin.find((key) => {
+      if (key.filter((val) => playerOne.includes(val)).length === 3) {
+        dispatch(winPlayer("X"));
+        dispatch(winners());
+      } else if (key.filter((val) => playerTwo.includes(val)).length === 3) {
+        dispatch(winPlayer("O"));
+        dispatch(winners());
+      }
+    });
   };
   const resetFun = () => {
-    // setApp(
-    //   app.map((val) =>
-    //     val.id >= 0 ? { ...val, name: "", burchak: null, icon: "" } : val
-    //   )
-    // );
-    setIgrok("");
-    setStart(true);
-    setWinner(false);
+    dispatch(reset());
   };
-  const [igrok, setIgrok] = useState("");
-  const [start, setStart] = useState(true);
-  const [winner, setWinner] = useState(false);
   return (
     <>
       <div className="container">
@@ -260,7 +79,15 @@ const Api = () => {
                 </video>
               </div>
             ) : (
-              "qwdqw"
+              oyin.map((val, i) => (
+                <div
+                  className={`app_click`}
+                  key={i}
+                  onClick={() => startFun(val, i)}
+                >
+                  {val[3]}
+                </div>
+              ))
             )}
           </div>
         </div>
@@ -270,12 +97,30 @@ const Api = () => {
 };
 
 export default Api;
-// app.map((val, i) => (
+
+// appData.map((val, i) => (
 //   <div
 //     className={`app_click ${val.name}`}
 //     key={i}
 //     onClick={() => startFun(val)}
 //   >
-//     {val.icon}
+//     {val.burchak !== null ? (
+//       val.burchak ? (
+//         <svg
+//           xmlns="http://www.w3.org/2000/svg"
+//           width="100"
+//           height="100"
+//           fill="#fff"
+//           className="bi bi-x-lg"
+//           viewBox="0 0 16 16"
+//         >
+//           <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+//         </svg>
+//       ) : (
+//         val.okIcon
+//       )
+//     ) : (
+//       ""
+//     )}
 //   </div>
 // ))
