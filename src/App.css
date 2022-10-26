@@ -72,6 +72,23 @@ body {
   position: relative;
   justify-content: space-between;
 }
+.resetBtn {
+  margin-top: 10px;
+  text-align: center;
+}
+.reset {
+  padding: 8px 27px;
+  font-size: 18px;
+  color: #fff;
+  width: 100%;
+  border-radius: 5px;
+  background: linear-gradient(70deg, crimson, green);
+  transition: all 0.3s ease-in-out;
+}
+.reset:hover {
+  cursor: pointer;
+  color: green;
+}
 
 .apps_header h3 {
   color: #fff;

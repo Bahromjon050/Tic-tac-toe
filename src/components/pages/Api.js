@@ -75,9 +75,18 @@ const Api = () => {
               ))
             )}
           </div>
+          <div className="resetBtn" onClick={resetFun}>
+            <button className="reset">Reset</button>
+          </div>
           <br />
-          <a href="https://tic-tac-toe-050.netlify.app/" className="tic">Tic Tac Toe React.js</a>
-          <a href="https://x-o-050.netlify.app/" className="tic ntch" style={{ textAlign: "end" }}>
+          <a href="https://tic-tac-toe-050.netlify.app/" className="tic">
+            Tic Tac Toe React.js
+          </a>
+          <a
+            href="https://x-o-050.netlify.app/"
+            className="tic ntch"
+            style={{ textAlign: "end" }}
+          >
             Tic Tac Toe JavaScript
           </a>
         </div>
