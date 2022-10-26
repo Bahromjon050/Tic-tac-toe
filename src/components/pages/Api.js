@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playerAction, nextStart, reset } from "../toolkit/Reducers";
 
@@ -6,7 +6,6 @@ const Api = () => {
   const { start, igrok, winner, newArr, playerX, playerO } = useSelector(
     (state) => state.app
   );
-  const [repeat, setRepeat] = useState([]);
   const dispatch = useDispatch();
   const startFun = (index) => {
     let newArray = [...newArr];
@@ -35,11 +34,17 @@ const Api = () => {
             {winner ? (
               <div>
                 <h3 style={{ color: "#fff" }}>
-                  Winner{" "}
-                  <span style={{ color: igrok === "X" ? "red" : "green" }}>
-                    {igrok}
-                  </span>{" "}
-                  o'yinchi g'olib
+                  {igrok !== "Durrang" ? (
+                    <>
+                      Winner{" "}
+                      <span style={{ color: igrok === "X" ? "red" : "green" }}>
+                        {igrok}
+                      </span>{" "}
+                      o'yinchi g'olib
+                    </>
+                  ) : (
+                    <>O'yin Durrang bo'ldi</>
+                  )}
                 </h3>
                 <div className="icons" onClick={resetFun}>
                   <div className="icons_content">

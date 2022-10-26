@@ -49,6 +49,11 @@ export const appSlice = createSlice({
             }
             state.igrok = payload[val[0]];
             state.winner = true;
+          } else {
+            if (payload.filter((val) => val !== "").length === 9) {
+              state.igrok = "Durrang";
+              state.winner = true;
+            }
           }
         });
       }
