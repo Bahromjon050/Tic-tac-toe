@@ -1,39 +1,24 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  playerAction,
-  nextStart,
-  winners,
-  winPlayer,
-  reset,
-} from "../toolkit/Reducers";
+import { playerAction, nextStart, reset } from "../toolkit/Reducers";
 
 const Api = () => {
-  const { oyin, start, playerOne, playerTwo, igrok, winner } = useSelector(
+  const { start, igrok, winner, newArr, playerX, playerO } = useSelector(
     (state) => state.app
   );
   const [repeat, setRepeat] = useState([]);
   const dispatch = useDispatch();
-  const startFun = (props, i) => {
-    console.log(props[3]);
-    if (repeat.filter((val) => val === i).length === 0) {
-      setRepeat([...repeat, i]);
+  const startFun = (index) => {
+    let newArray = [...newArr];
+    if (newArray[index] === "") {
       if (start) {
-        dispatch(playerAction({ arr: "playerOne", data: [...props, "X"] }));
+        newArray[index] = "X";
       } else {
-        dispatch(playerAction({ arr: "playerTwo", data: [...props, "O"] }));
+        newArray[index] = "O";
       }
+      dispatch(playerAction(newArray));
       dispatch(nextStart());
     }
-    oyin.find((key) => {
-      if (key.filter((val) => playerOne.includes(val)).length === 3) {
-        dispatch(winPlayer("X"));
-        dispatch(winners());
-      } else if (key.filter((val) => playerTwo.includes(val)).length === 3) {
-        dispatch(winPlayer("O"));
-        dispatch(winners());
-      }
-    });
   };
   const resetFun = () => {
     dispatch(reset());
@@ -43,8 +28,8 @@ const Api = () => {
       <div className="container">
         <div className="apps_content">
           <header className={!start ? "apps_header activ" : "apps_header"}>
-            <h3>X o'yinch</h3>
-            <h3>O o'yinch</h3>
+            <h3>X o'yinch: {playerX}</h3>
+            <h3>O o'yinch: {playerO}</h3>
           </header>
           <div className={winner ? "apps activ" : "apps"}>
             {winner ? (
@@ -79,17 +64,22 @@ const Api = () => {
                 </video>
               </div>
             ) : (
-              oyin.map((val, i) => (
+              newArr.map((val, i) => (
                 <div
                   className={`app_click`}
                   key={i}
-                  onClick={() => startFun(val, i)}
+                  onClick={() => startFun(i)}
                 >
-                  {val[3]}
+                  {val}
                 </div>
               ))
             )}
           </div>
+          <br />
+          <a href="https://tic-tac-toe-050.netlify.app/" className="tic">Tic Tac Toe React.js</a>
+          <a href="https://x-o-050.netlify.app/" className="tic ntch" style={{ textAlign: "end" }}>
+            Tic Tac Toe JavaScript
+          </a>
         </div>
       </div>
     </>
